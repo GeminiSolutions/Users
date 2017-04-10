@@ -20,6 +20,11 @@ public class UsersClient {
     public typealias UserIdsBlock = ([User.UserIdType], Error?) -> Void
     public typealias UsersTagsBlock = ([String], Error?) -> Void
 
+    public var authToken: String? {
+        get { return dataStore.authToken }
+        set { dataStore.authToken = newValue }
+    }
+
     private var dataStore: DataStoreClient
 
     private func query(from searchString: String, tags: [String]) -> [String:String] {
