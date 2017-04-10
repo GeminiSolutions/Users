@@ -12,9 +12,12 @@ public enum UsersClientError: Error {
     case invalidUserId
 }
 
+public typealias UserIdsList = DataStoreItemIdsList<User.UserIdType>
+public typealias UsersCount = DataStoreItemsCountJSON
+
 public class UsersClient {
     public typealias ErrorBlock = (Error?) -> Void
-    public typealias IntBlock = (Int, Error?) -> Void
+    public typealias UInt64Block = (UInt64, Error?) -> Void
     public typealias UserBlock = (User, Error?) -> Void
     public typealias UsersBlock = ([User], Error?) -> Void
     public typealias UserIdsBlock = ([User.UserIdType], Error?) -> Void
@@ -38,7 +41,7 @@ public class UsersClient {
         dataStore = DataStoreClient(transport: transport, basePath: "/users")
     }
 
-    public func usersCount(completion: @escaping IntBlock) {
+    public func usersCount(completion: @escaping UInt64Block) {
         let usersCount = UsersCount()
         dataStore.getItemsCount(usersCount, { (error) in
             completion(usersCount.value, error)
@@ -48,7 +51,7 @@ public class UsersClient {
     public func usersIds(range: Range<Int>?, completion: @escaping UserIdsBlock) {
         let userIdsList = UserIdsList()
         dataStore.getItemsIdentifiers(range, userIdsList, { (error) in
-            completion(userIdsList.userIds, error)
+            completion(userIdsList.itemIds, error)
         })
     }
 
