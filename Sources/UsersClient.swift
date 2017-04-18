@@ -12,7 +12,7 @@ public enum UsersClientError: Error {
     case invalidUserId
 }
 
-public typealias UserIdsList = DataStoreItemIdsList<User.UserIdType>
+public typealias UserIdsList = DataStoreItemIdsListJSON<User.UserIdType>
 public typealias UsersCount = DataStoreItemsCountJSON
 
 public class UsersClient {
@@ -33,7 +33,7 @@ public class UsersClient {
     private func query(from searchString: String, tags: [String]) -> [String:String] {
         var query = [String:String]()
         query["name"] = searchString
-        if tags.count > 0 { query["tags"] = tags.reduce("", { return ($0.isEmpty ? "" : $0+",") + $1 }) }
+        if tags.count > 0 { query["tags"] = tags.reduce("", { ($0.isEmpty ? "" : $0+",") + $1 }) }
         return query
     }
 
