@@ -12,6 +12,8 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
     public typealias UserIdType = Int
     public typealias JSONObjectType = [String:Any]
 
+    public var lastModified: Date?
+
     public var id: UserIdType? {
         get {
             return content["id"] as? UserIdType
