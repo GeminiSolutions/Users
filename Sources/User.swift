@@ -14,14 +14,7 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
 
     public var lastModified: Date?
 
-    public var id: UserIdType? {
-        get {
-            return content["id"] as? UserIdType
-        }
-        set {
-            set(newValue, for: "id")
-        }
-    }
+    public var id: UserIdType?
 
     public var name: String? {
         get {
