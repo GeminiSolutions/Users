@@ -65,4 +65,10 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
         guard json.keys.contains("password") else { return false }
         return true
     }
+
+    class public var Fields: [[String:String]] {
+        return [["name":"name", "label": "Name", "type":"String", "required":"true"],
+                ["name":"password", "label": "Password", "type":"String", "required":"true"],
+                ["name":"tags", "label": "Tags", "type":"Array<String>", "required":"false"]]
+    }
 }
