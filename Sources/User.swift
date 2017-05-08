@@ -66,7 +66,7 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
         return true
     }
 
-    class public var Fields: [[String:String]] {
+    class public var Fields: [[String:Any]] {
         return [["name":"name", "label": "Name", "type":"String", "required":"true"],
                 ["name":"password", "label": "Password", "type":"String", "required":"true"],
                 ["name":"tags", "label": "Tags", "type":"Array<String>", "required":"false"]]
