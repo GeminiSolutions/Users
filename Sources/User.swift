@@ -8,13 +8,12 @@
 import Foundation
 import DataStore
 
-public class User: DataStoreContentJSONDictionary<String,Any> {
+open class User: DataStoreContentJSONDictionary<String,Any> {
     public typealias UserIdType = Int
     public typealias JSONObjectType = [String:Any]
 
-    public var lastModified: Date?
-
     public var id: UserIdType?
+    public var lastUpdate: Date?
 
     public var name: String? {
         get {
@@ -43,11 +42,11 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
         }
     }
 
-    public override init() {
+    override public required init() {
         super.init()
     }
 
-    public init?(content: JSONObjectType) {
+    public required init?(content: JSONObjectType) {
         guard User.validate(content) else { return nil }
         super.init(json: content)
     }
@@ -56,17 +55,17 @@ public class User: DataStoreContentJSONDictionary<String,Any> {
         return UserIdType(string)
     }
 
-    class public func stringFromUserId(_ userId: UserIdType) -> String? {
+    class public func stringFromUserId(_ userId: UserIdType) -> String {
         return String(userId)
     }
     
-    class public func validate(_ json: JSONObjectType) -> Bool {
+    class open func validate(_ json: JSONObjectType) -> Bool {
         guard json.keys.contains("name") else { return false }
         guard json.keys.contains("password") else { return false }
         return true
     }
 
-    class public var Fields: [[String:Any]] {
+    class open var Fields: [[String:Any]] {
         return [["name":"name", "label": "Name", "type":"String", "required":"true"],
                 ["name":"password", "label": "Password", "type":"String", "required":"true"],
                 ["name":"tags", "label": "Tags", "type":"Array<String>", "required":"false"]]
