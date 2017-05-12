@@ -15,12 +15,12 @@ open class User: DataStoreContentJSONDictionary<String,Any> {
     public var id: UserIdType?
     public var lastUpdate: Date?
 
-    public var name: String? {
+    public var username: String? {
         get {
-            return content["name"] as? String
+            return content["username"] as? String
         }
         set {
-            set(newValue, for: "name")
+            set(newValue, for: "username")
         }
     }
 
@@ -60,13 +60,13 @@ open class User: DataStoreContentJSONDictionary<String,Any> {
     }
     
     class open func validate(_ json: JSONObjectType) -> Bool {
-        guard json.keys.contains("name") else { return false }
+        guard json.keys.contains("username") else { return false }
         guard json.keys.contains("password") else { return false }
         return true
     }
 
     class open var Fields: [[String:Any]] {
-        return [["name":"name", "label": "Name", "type":"String", "required":"true"],
+        return [["name":"username", "label": "Username", "type":"String", "required":"true"],
                 ["name":"password", "label": "Password", "type":"String", "required":"true"],
                 ["name":"tags", "label": "Tags", "type":"Array<String>", "required":"false"]]
     }
