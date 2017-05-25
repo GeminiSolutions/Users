@@ -8,7 +8,7 @@
 import Foundation
 import DataStore
 
-public class UsersMetadata: DataStoreItemsMetadataJSON {
+open class UsersMetadata: DataStoreItemsMetadataJSON {
     public var fields: [[String:Any]]? {
         get {
             return content["fields"] as? [[String:Any]]
