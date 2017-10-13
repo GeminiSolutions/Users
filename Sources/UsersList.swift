@@ -8,13 +8,17 @@
 import Foundation
 import DataStore
 
-public class UsersList: DataStoreContentJSONArray<User.JSONObjectType> {
+public class UsersList: DSContentJSONArray<User.JSONObjectType> {
+    private static let dateFormatter = DateFormatter()
+
     public override init() {
+        UsersList.dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
         super.init()
     }
 
     public init(usersData: [(user: User.JSONObjectType, id: User.UserIdType, lastUpdate: Date)]) {
-        let users = usersData.map({ return ["content":$0.user, "id":User.stringFromUserId($0.id), "lastUpdate":UsersList.dateString(from: $0.lastUpdate)] })
+        UsersList.dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss zzz"
+        let users = usersData.map({ return ["content":$0.user, "id":User.stringFromUserId($0.id), "lastUpdate":UsersList.dateFormatter.string(from: $0.lastUpdate)] })
         super.init(json: users)
     }
 
@@ -37,12 +41,12 @@ public class UsersList: DataStoreContentJSONArray<User.JSONObjectType> {
 
     public func append(user: User) {
         guard let id = user.id, let lastUpdate = user.lastUpdate else { return }
-        append(["content":user.content, "id":User.stringFromUserId(id), "lastUpdate":UsersList.dateString(from: lastUpdate)])
+        append(["content":user.content, "id":User.stringFromUserId(id), "lastUpdate":UsersList.dateFormatter.string(from: lastUpdate)])
     }
 
     private func user<UserType: User>(from data: [String:Any]) -> UserType? {
         guard let content = data["content"] as? User.JSONObjectType, let id = data["id"] as? String, let lastUpdate = data["lastUpdate"] as? String else { return nil }
-        guard let userId = User.userIdFromString(id), let userLastUpdate = UsersList.date(from: lastUpdate) else { return nil }
+        guard let userId = User.userIdFromString(id), let userLastUpdate = UsersList.dateFormatter.date(from: lastUpdate) else { return nil }
         guard let user = UserType(content: content) else { return nil }
         user.id = userId
         user.lastUpdate = userLastUpdate
